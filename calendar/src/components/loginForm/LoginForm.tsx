@@ -1,7 +1,7 @@
-import React, { FC, useState } from 'react';
+import React, { FC, useState, useEffect } from 'react';
 import {useSelector, useDispatch} from 'react-redux';
 import {RootState} from '../../redux/rootReducer';
-import {messageAction} from '../../redux/actions';
+import {messageAction, checkUserAction} from '../../redux/actions';
 import { Row, Col, Form, Input, Button,Alert } from 'antd';
 import style from './style.module.css';
 
@@ -24,8 +24,14 @@ export const LoginForm: FC = () => {
 
 
   const handleSubmit = ():void => {
-    dispatch(messageAction('Неверный логин или пароль'))
+    dispatch(checkUserAction(login,password))
   }
+
+  useEffect(() => {
+    return () => {
+      dispatch(messageAction(null))
+    }
+  }, [])
 
     return (
         <Row className={style.form}>

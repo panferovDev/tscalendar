@@ -1,0 +1,7 @@
+.header {
+    border-bottom: solid 1px rgb(235, 237, 240);
+}
+.buttonPart{
+    display:'flex';
+    justify-content: space-around;
+}
