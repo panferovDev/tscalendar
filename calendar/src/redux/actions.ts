@@ -1,4 +1,4 @@
-import {Iuser} from '../components/interfaces';
+import {Iuser, IusersMeetings} from '../components/interfaces';
 import {users} from '../userData';
 
 
@@ -12,6 +12,13 @@ export const userAction = (value:Iuser | null) => {
 export const messageAction = (value:string | null) => {
     return {
         type:'SET_MESSAGE',
+        payload: value
+    }
+}
+
+export const meetingAction = (value:IusersMeetings) => {
+    return {
+        type:'SET_MEETINGS',
         payload: value
     }
 }

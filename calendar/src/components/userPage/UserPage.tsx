@@ -32,7 +32,7 @@ export const UserPage:FC = () => {
         <UserCalendar id={logUser!.id}/>
         <Row className={style.buttonPart}>
             <Col>
-              <InviteModal/>
+              <InviteModal userid={logUser!.id}/>
             </Col>
         </Row>
         </>

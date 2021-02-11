@@ -1,17 +1,19 @@
-import {Iuser} from '../components/interfaces';
+import {Iuser, IusersMeetings} from '../components/interfaces';
 import {users} from '../userData';
+
 
 interface Istate {
     user: null | Iuser,
     message: null | string,
-    allUsers: Iuser[] 
-
+    allUsers: Iuser[],
+    userMeetings: IusersMeetings[]
 }
 
 const initialState: Istate= {
     user: null,
     message: null,
-    allUsers:[]
+    allUsers:[],
+    userMeetings:[],
 };
 
 export function mainReducer(state = initialState, action:any):Istate {
@@ -22,6 +24,8 @@ export function mainReducer(state = initialState, action:any):Istate {
             }
         case 'SET_MESSAGE':
             return {...state, message: action.payload}
+        case 'SET_MEETINGS':
+            return {...state, userMeetings: [...state.userMeetings, action.payload]}
         default:
             return state;
     };

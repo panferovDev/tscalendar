@@ -1,16 +1,20 @@
 import React, {FC, useState} from 'react';
 import {Modal, Button, Select, DatePicker, Space, Col, Row } from 'antd';
 import {RootState} from '../../redux/rootReducer';
-import {useSelector} from 'react-redux';
-import {Iuser} from '../interfaces';
+import {useSelector, useDispatch} from 'react-redux';
+import {meetingAction} from '../../redux/actions';
 import style from './style.module.css';
 
-export const InviteModal: FC = () => {
+interface Iprops {
+  userid: number
+}
+
+export const InviteModal: FC<Iprops> =( {userid} ) => {
 
     const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
-    const [selectedUser, setSelectedUser] = useState(null);
-    const [invte, setInvite] = useState();
-
+    const [selectedUser, setSelectedUser] = useState<number|null>(null);
+    const [date, setDate] = useState<string>('');
+    const dispatch = useDispatch();
     const allUsers = useSelector((state:RootState) => state.mainReducer.allUsers);
     const { Option } = Select;
     const showModal = ():void => {
@@ -20,13 +24,25 @@ export const InviteModal: FC = () => {
     const handleCancel = ():void => {
         setIsModalVisible(false);
     };
+    const userHandler = (value:number):void => {
+      setSelectedUser(value)
+    }
+    const dateHandler = (CalDate:any, dateString:string):void =>{
+      setDate(dateString);
+    }
+    const handleOk = () => {
+        if(date !== '' && selectedUser){
+          dispatch(meetingAction({id:selectedUser, date:date, organizer: userid}));
+          handleCancel()
+        }
+    }
 
     return(
         <>
           <Button type="primary" onClick={showModal}>
             Добавить событие
           </Button>
-          <Modal title="Добавление события" visible={isModalVisible}  onCancel={handleCancel}>
+          <Modal title="Добавление события" visible={isModalVisible} onOk={handleOk} onCancel={handleCancel}>
             <Row >
 
                 <Col span={24} className={style.modal}>
@@ -35,6 +51,7 @@ export const InviteModal: FC = () => {
                   <DatePicker
                     placeholder="Выбор даты"
                     style={{ width: 200 }}
+                    onChange={dateHandler}
                   />
                   </Space>
                 </Col>
@@ -43,10 +60,11 @@ export const InviteModal: FC = () => {
                 <span>Гости</span>
                 <Select
                   style={{ width: 200 }}
-                  placeholder="Выберете гостя"
+                  placeholder="Выберите гостя"
+                  onChange={userHandler}
                 >
                     {allUsers.map(i =>
-                        <Option value={i.name}>{i.name}</Option>
+                        <Option value={i.id}>{i.name}</Option>
                     )}
                 </Select>
                 </Col>
