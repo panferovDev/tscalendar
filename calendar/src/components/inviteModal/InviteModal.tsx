@@ -64,7 +64,12 @@ export const InviteModal: FC<Iprops> =( {userid} ) => {
                   onChange={userHandler}
                 >
                     {allUsers.map(i =>
-                        <Option value={i.id}>{i.name}</Option>
+                        <Option
+                          value={i.id}
+                          key={i.id}
+                        >
+                          {i.name}
+                        </Option>
                     )}
                 </Select>
                 </Col>
